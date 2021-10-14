@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  testservice:
+    build: .
+    ports:
+      - 7001:7001
+    environment:
+      - ASPNETCORE_URLS=http://*:7001
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - apigateway_net-gateway
+networks:
+  apigateway_net-gateway:
+    external: true
