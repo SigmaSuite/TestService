@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testservice-deployment
+  labels:
+    app: testservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testservice
+  template:
+    metadata:
+      labels:
+        app: testservice
+    spec:
+      containers:
+      - name: testservice
+        image: ghcr.io/sigmasuite/testservice:master
+        ports:
+        - containerPort: 7001
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ASPNETCORE_URLS
+          value: http://*:7001
+      imagePullSecrets:
+        - name: ghcr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: testservice
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 7001
+  selector:
+    app: testservice
