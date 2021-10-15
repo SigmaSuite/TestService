@@ -35,7 +35,7 @@ spec:
   type: ClusterIP
   ports:
   - protocol: TCP
-    port: 80
+    port: 7001
     targetPort: 7001
   selector:
     app: testservice
